@@ -4,13 +4,14 @@
     format("woff");
 }
 
-.button {
+.quizbutton {
   width: 300px;
   height: 286px;
   position: relative;
   padding: 12px 35px;
-  background: #95f9fe;
-  border-radius: 30px;
+  border: #d9e1e7 2px solid;
+  background: #fff;
+  border-radius: 50px;
   box-shadow: 0 0 0 #fec1958c;
   transition: all 0.6s ease;
   cursor: pointer;
@@ -87,40 +88,44 @@
   transition: all 0.6s ease;
 }
 
-.button:hover {
+.quizbutton:hover {
   color: #ffffff;
   box-shadow: 0 0 25px #fec1958c;
-  transition: all 0.6s ease;
-  transform: scale(1.1);
+  transition: all 0.4s ease;
+  transform: scale(1.05);
   transform-origin: center;
 }
 
-.button:before {
-  content: "";
-  background: linear-gradient(56deg, #90ffe7 0%, #35e9d1 46%, #28f6c3 100%);
+.quizbutton:before {
+  font: 2em "bw";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: "Quizlet";
+  background: linear-gradient(56deg, #c0ff68 0%, #45fc64 46%, #1af3ab 100%);
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
-  border-radius: 30px;
+  border-radius: 50px;
   z-index: 1;
   transition: opacity 0.4s ease;
 }
 
-.button:hover {
-  transition: all 0.6s ease;
-  transform: scale(1.1);
+.quizbutton:hover {
+  transition: all 0.4s ease;
+  transform: scale(1.05);
   transform-origin: center;
 }
 
-.button:hover:before {
+.quizbutton:hover:before {
   opacity: 1;
-  transition: opacity 0.6s linear;
+  transition: opacity 0.4s linear;
 }
 
-.button:hover .star-1 {
+.quizbutton:hover .star-1 {
   position: absolute;
   top: -10%;
   left: -10%;
@@ -130,7 +135,7 @@
   z-index: 2;
 }
 
-.button:hover .star-2 {
+.quizbutton:hover .star-2 {
   position: absolute;
   top: 25%;
   left: 30%;
@@ -140,7 +145,7 @@
   z-index: 2;
 }
 
-.button:hover .star-3 {
+.quizbutton:hover .star-3 {
   position: absolute;
   top: 85%;
   left: 5%;
@@ -150,7 +155,7 @@
   z-index: 2;
 }
 
-.button:hover .star-4 {
+.quizbutton:hover .star-4 {
   position: absolute;
   top: 30%;
   left: 90%;
@@ -160,7 +165,7 @@
   z-index: 2;
 }
 
-.button:hover .star-5 {
+.quizbutton:hover .star-5 {
   position: absolute;
   top: 25%;
   left: 115%;
@@ -170,7 +175,7 @@
   z-index: 2;
 }
 
-.button:hover .star-6 {
+.quizbutton:hover .star-6 {
   position: absolute;
   top: 70%;
   left: 60%;

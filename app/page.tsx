@@ -35,17 +35,18 @@ export default function Page() {
   }, []); // Empty dependency array means this effect runs once after the initial render
 
   return (
-    <div className="flex flex-col justify-center">
-      <div className="flex justify-around px-12  mb-2">
+    <div className="flex flex-col justify-center ">
+      <div className="flex justify-around   m-2 gap-20 ">
         <div className=" border-2 border-slate-500 rounded-3xl p-5">
           <ReadCalendar dates={classes} />
-          <div className="mt-10 pl-5">
+          <div className="">
             <Link href="/schedule">
               <EditSchedule id="schedule" content={content} />
             </Link>
           </div>
         </div>
-        <div className="w-[1000px] flex-col ">
+
+        <div className="w-screen flex-col ">
           <Today />
 
           <div className="grid grid-cols-3 gap-10 mt-10">
@@ -62,11 +63,12 @@ export default function Page() {
             <div className="flex justify-end">
               <Link href="/diary">
                 <Diary />
+                {/* <DiaryBtn /> */}
               </Link>
             </div>
-            <div className="flex justify-start col-span-3">
+            {/* <div className="flex justify-start col-span-3">
               <Youtube />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
