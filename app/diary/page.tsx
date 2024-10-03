@@ -51,7 +51,7 @@ export default async function Diary({ searchParams }: SearchParamProps) {
         <EditSchedule id="write" content={content} />
       </Link> */}
 
-      <div className="mt-5 px-10 max-h-[700px] overflow-y-auto">
+      <div className="mt-5 px-10 h-[100vh] overflow-y-auto">
         <DiaryCard diarydata={diarydata} />
       </div>
       {/* 
