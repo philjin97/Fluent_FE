@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import styled from "styled-components";
 import "react-day-picker/src/style.css";
+import ScheduleTable from "../components/scheduletable";
 
 const CustomDayPicker = styled(DayPicker)`
   .rdp {
@@ -22,7 +23,7 @@ const CustomDayPicker = styled(DayPicker)`
     justify-content: space-between;
     padding: 0;
     text-align: left;
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
   }
 
   .rdp-caption_label {
@@ -37,34 +38,54 @@ const CustomDayPicker = styled(DayPicker)`
     border: 0;
     font-family: inherit;
     font-weight: bold;
-    font-size: var(--rdp-caption-font-size);
+    font-size: 3rem;
   }
-
+  .rdp-nav_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    padding: 0.25em;
+    border-radius: 100%;
+  }
   .rdp-head_cell {
-    vertical-align: middle;
+    vertical-align: baseline;
     font-weight: 700;
     text-align: center;
+    font-size: 1rem;
     text-transform: uppercase;
     padding: 0;
     border-bottom: 2px solid #0a0a76;
+  }
+
+  .rdp-cell {
+    width: var(--rdp-cell-size);
+    height: 100%;
+    height: var(--rdp-cell-size);
+    padding: 0;
+    text-align: center;
+    border: 2px solid #acacac;
   }
 
   .rdp-weeknumber,
   .rdp-day {
     display: flex;
     overflow: hidden;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     box-sizing: border-box;
     font-weight: 500;
     border: 2px solid transparent;
-    border-radius: 30%;
-    margin: 5px;
+    border-radius: 0%;
+    width: var(--rdp-cell-size);
+    height: var(--rdp-cell-size);
   }
 
   .rdp-day_today:not(.rdp-day_outside) {
     font-weight: 900;
-    color: rgb(0, 38, 255);
+    color: rgb(255, 13, 0);
+    border: 2px solid rgb(255, 0, 0);
     font-size: 1.5rem;
   }
 
@@ -77,16 +98,16 @@ const CustomDayPicker = styled(DayPicker)`
   /* 16인치 맥북 (최소 1400px) */
   @media (min-width: 1400px) {
     .rdp {
-      --rdp-cell-size: 100px;
+      --rdp-cell-size: 200px;
     }
 
     .rdp-weeknumber,
     .rdp-day {
-      --rdp-cell-size: 100px;
+      --rdp-cell-size: 200px;
     }
 
     .mybookedclass {
-      --rdp-cell-size: 100px;
+      --rdp-cell-size: 200px;
       font-size: 1.4rem;
     }
   }
@@ -142,7 +163,19 @@ const CustomDayPicker = styled(DayPicker)`
 const URL = "http://localhost:3001/schedule";
 
 export default function ReadCalendar({ dates }) {
-  const classes = dates.map((date) => new Date(date.date));
+  const classes = dates.map((date) => ({
+    date: new Date(date.date),
+    time: date.time,
+    length: date.length,
+  }));
+
+  // 특정 날짜에 수업 정보를 찾는 함수
+  const findScheduleForDay = (day) => {
+    const dayString = day.toLocaleDateString();
+    return classes.find(
+      (schedule) => schedule.date.toLocaleDateString() === dayString
+    );
+  };
 
   return (
     <div>
@@ -150,10 +183,46 @@ export default function ReadCalendar({ dates }) {
         className=" text-lg "
         defaultMonth={classes[0]} // 첫 번째 날짜를 기본 달로 설정
         modifiers={{
-          booked: classes, // 예약된 날짜
+          booked: classes.map((c) => c.date), // 예약날짜
         }}
         modifiersClassNames={{
           booked: "mybookedclass", // 예약된 날짜에 커스텀 클래스 적용
+        }}
+        components={{
+          DayContent: ({ date }) => {
+            const scheduleForDay = findScheduleForDay(date);
+
+            return (
+              <div style={{ position: "relative" }}>
+                <div>{date.getDate()}</div> {/* 날짜 표시 */}
+                {scheduleForDay && (
+                  <div
+                    style={{
+                      padding: "0 1rem",
+                      marginTop: "0.5rem",
+                      fontSize: "0.8rem",
+                      color: "black",
+                      background: "rgb(213, 232, 255)",
+                      borderRadius: "0.5rem",
+                      display: "flex", // Flexbox to align items
+                      alignItems: "center", // Align vertically
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "10px",
+                        height: "10px",
+                        backgroundColor: "blue",
+                        borderRadius: "100%",
+                        marginRight: "0.5rem",
+                      }}
+                    ></div>
+                    {scheduleForDay.time}분 - {scheduleForDay.length}시간 수업
+                  </div>
+                )}
+              </div>
+            );
+          },
         }}
       />
     </div>
