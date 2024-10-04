@@ -2,16 +2,16 @@ import "./styles.css";
 
 export default function Today() {
   return (
-    <div className="wrap  rounded-[30px] max-w-[1000px] h-[470px] lg:flex hidden border-2 ">
+    <div className="wrap  rounded-[30px] max-w-[900px] h-[470px] lg:flex hidden border-2 ">
       <div id="slide1" className="video   relative w-screen">
         <legend className="checkbox-group-legend flex justify-center">
           TO DO LIST
         </legend>
         <fieldset className="checkbox-group flex-col">
-          <div className="checkbox ">
+          <div className="checkbox">
             <label className="checkbox-wrapper">
               <input type="checkbox" className="checkbox-input" />
-              <span className="checkbox-tile">
+              <span className="checkbox-tile ">
                 {/* <span className="checkbox-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
