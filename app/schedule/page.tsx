@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import ReadCalendar from "../../components/readcalendar";
 import "react-day-picker/dist/style.css";
+import ScheduleTable from "../../components/scheduletable";
 
 export default function Page() {
   const [time, setTime] = useState("");

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Record from "../components/record";
 import ReadCalendar from "../components/readcalendar";
+import TodayReadCalender from "../components/TodayReadcalendar";
 import { useEffect, useState } from "react";
 import { Button } from "../@/components/ui/button";
 
@@ -38,7 +39,7 @@ export default function Page() {
     <div className="flex flex-col justify-center ">
       <div className="flex justify-around   m-2 gap-20 ">
         <div className=" border-2 border-slate-500 rounded-3xl p-5">
-          <ReadCalendar dates={classes} />
+          <TodayReadCalender dates={classes} />
           <div className="">
             <Link href="/schedule">
               <EditSchedule id="schedule" content={content} />
