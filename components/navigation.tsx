@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Navigation() {
   return (
-    <div className="navbar bg-base-100 z-30 mb-10   ">
+    <div className="navbar h-[10vh]">
       <div className="navbar-start w-[8rem]">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
