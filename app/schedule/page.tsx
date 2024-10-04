@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import ReadCalendar from "../../components/readcalendar";
 import "react-day-picker/dist/style.css";
+import ScheduleTable from "../../components/scheduletable";
 
 export default function Page() {
   const [time, setTime] = useState("");
@@ -38,6 +39,7 @@ export default function Page() {
     e.preventDefault();
     console.log(time, length, selected);
     const date = selected.toLocaleDateString();
+
     // Because this is a client side (because we use 'use client on top'), so we don't have to add http in the api
     await fetch("http://localhost:3001/schedule", {
       method: "POST", // Method put is to create
@@ -50,12 +52,18 @@ export default function Page() {
         length,
       }),
     })
-      .then((res) => {})
+      .then((res) => {
+        if (res.ok) {
+          // 요청이 성공한 경우
+          alert("완료되었습니다!"); // 완료 메시지
+          window.location.reload(); // 강제로 페이지 새로고침
+        } else {
+          console.error("Submit failed");
+        }
+      })
       .catch((e) => {
         console.log(e);
       });
-
-    router.refresh();
   };
 
   const URL1 = "http://localhost:3001/schedule?_sort=date";
