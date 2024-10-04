@@ -13,7 +13,7 @@ const WriteDiary: React.FC<ButtonProps> = ({ id, content }) => {
   const buttonText = content[id];
 
   return (
-    <div id="container">
+    <div className="pt-10 pl-10 mb-10" id="container">
       <button className="main learn-more">
         <span className="main circle" aria-hidden="true">
           <span className="main icon arrow"></span>

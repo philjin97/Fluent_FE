@@ -32,6 +32,7 @@ export default function Quizlet({ searchParams }: SearchParamProps){
     const [createData, setCreateData] = useState("")
     const [submitClicked, setSubmitClicked] = useState(false)
     const [cardsets, setCardsets] = useState([])
+    const [currentcard, setCurrentCard] = useState({})
 
     function showQuizlet(){
         if (!selectQuizlet){
@@ -49,15 +50,10 @@ export default function Quizlet({ searchParams }: SearchParamProps){
     }
 
     function showQuizletCards(e){
+
         for (const item of data){
             if (item.date == e.target.value){
-                const a = document.querySelector('.cardstitle')
-                const b = document.querySelector('.cardfront')
-                const c= document.querySelector('.cardback')
-                a.textContent = item.date
-                b.textContent = item.cards[0][0]
-                c.textContent = item.cards[0][1]
-                console.log(item.date)
+                setCurrentCard(item)
             }
         }
 
@@ -107,42 +103,33 @@ export default function Quizlet({ searchParams }: SearchParamProps){
         b.appendChild(c)
     }
 
+    function updateQuizlet() {
+
+    }
+
     return (
         <div className="flex flex-row">
-            <div className="flex flex-col w-[20vw]">
+            <div className="flex flex-col w-[20vw] pt-10 pl-10">
                 <Link href="quizlet/?show=true">
                     <WriteQuizlet id="write" content={content} />
                 </Link>
-                <div className="mt-8">
-                    <SelectQuizlet id="select" content={content}/>
+                <div className="mt-8" onClick={showQuizlet}>
+                    <SelectQuizlet id="select" content={content} />
+                    <div className="flex-col ml-10 pl-10">
+                        {selectQuizlet ? data.map((item) => <div className="flex-col"><Button key={item.date} value={item.date} onClick={showQuizletCards}>{item.date}</Button></div>) : <h1 className="opacity-0">No Quizlet</h1>}
+                    </div>
+                    
                     {cardsets.map((card) => <div key={card.date}>{card.date}</div>)}
                 </div>
                 
                 
             </div>
 
-            <div className="mt-5 px-10 h-[100vh]">
-                <QuizletCard />
+            <div className="quizlet_card mt-5 px-10 h-[100vh]" onClick={updateQuizlet}>
+                <QuizletCard content={currentcard}/>
             </div>
 
             {show && <QuizletModal />}
         </div>
         )
     }
-
-
-    {/* </div>
-        <div className="flex">
-            <div className="flex flex-col">
-                <Button className="text-xl" onClick={createQuizlet}>Create Quizlet</Button>
-                <div className="inputQuizletData"></div>
-                <Button className="text-xl" onClick={showQuizlet}>Select Quizlet</Button>
-                {selectQuizlet ? data.map((item) => <Button key={item.date} value={item.date} onClick={showQuizletCards}>{item.date}</Button>) : <h1 className="opacity-0">No Quizlet</h1>}
-                
-            </div>
-            <div className="cards ml-10 text-4xl">
-                <div className="cardstitle"></div>
-                <div className="cardfront"></div>
-                <div className="cardback"></div>
-            </div>
-        </div> */}
