@@ -60,9 +60,6 @@ const CustomDayPicker = styled(DayPicker)`
   }
 
   .rdp-cell {
-    width: var(--rdp-cell-size);
-    height: 100%;
-    height: var(--rdp-cell-size);
     padding: 0;
     text-align: center;
     border: 2px solid #acacac;
@@ -95,8 +92,7 @@ const CustomDayPicker = styled(DayPicker)`
   }
 
   /* 반응형 디자인 적용 */
-  /* 16인치 맥북 (최소 1400px) */
-  @media (min-width: 1400px) {
+  @media (min-width: 2000px) {
     .rdp {
       --rdp-cell-size: 200px;
     }
@@ -112,55 +108,151 @@ const CustomDayPicker = styled(DayPicker)`
     }
   }
 
-  /* 14인치 맥북 (1200px ~ 1400px) */
-  @media (min-width: 1200px) and (max-width: 1399px) {
+  @media (min-width: 1600px) and (max-width: 1999px) {
     .rdp {
-      --rdp-cell-size: 100px;
+      --rdp-cell-size: 140px;
     }
+
     .rdp-weeknumber,
     .rdp-day {
-      --rdp-cell-size: 60px;
+      --rdp-cell-size: 140px;
     }
     .mybookedclass {
-      --rdp-cell-size: 60px;
+      --rdp-cell-size: 140px;
       font-size: 1.2rem;
     }
   }
 
-  /* 태블릿 (768px ~ 1199px) */
-  @media (min-width: 768px) and (max-width: 1199px) {
+  @media (min-width: 1100px) and (max-width: 1599px) {
     .rdp {
-      --rdp-cell-size: 80px;
+      --rdp-cell-size: 100px;
     }
+    .rdp-caption_label {
+      z-index: 1;
+      padding: 0 0.25em;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 2.4rem;
+    }
+
     .rdp-weeknumber,
     .rdp-day {
-      --rdp-cell-size: 40px;
+      --rdp-cell-size: 100px;
     }
     .mybookedclass {
-      --rdp-cell-size: 40px;
+      --rdp-cell-size: 100px;
       font-size: 1.1rem;
     }
   }
 
-  /* 아이폰 및 작은 화면 (최대 767px) */
-  @media (max-width: 767px) {
+  @media (max-width: 1099px) {
     .rdp {
-      --rdp-cell-size: 60px;
+      --rdp-cell-size: 80px;
+    }
+    .rdp-caption_label {
+      z-index: 1;
+      padding: 0 0.25em;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 2rem;
     }
     .rdp-weeknumber,
     .rdp-day {
-      --rdp-cell-size: 20px;
+      --rdp-cell-size: 80px;
       font-size: 0.8rem;
     }
 
     .mybookedclass {
-      --rdp-cell-size: 20px;
+      --rdp-cell-size: 80px;
       font-size: 0.8rem;
     }
   }
 `;
 
-const URL = "http://localhost:3001/schedule";
+const ScheduleDayContent = styled.div`
+  position: relative;
+
+  .schedule-info {
+    padding: 0 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: black;
+    background: rgb(213, 232, 255);
+    border-radius: 0.2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    border-radius: 100%;
+    margin-right: 0.5rem;
+  }
+
+  /* 반응형 디자인 적용 */
+
+  @media (min-width: 2000px) {
+    .schedule-info {
+      font-size: 1rem; /* 큰 화면일 때 글자 크기 */
+      padding: 0 0.75rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  @media (min-width: 1100px) and (max-width: 1599px) {
+    .schedule-info {
+      font-size: 0.7rem;
+      padding: 0 0.4rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+    }
+  }
+  @media (min-width: 1100px) and (max-width: 1599px) {
+    .schedule-info {
+      font-size: 0.8rem; /* 작은 화면일 때 글자 크기 */
+      padding: 0 0.5rem;
+      border-radius: 0.5rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+    }
+    .time-info {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .schedule-info {
+      width: 5rem;
+      font-size: 0.6rem; /* 작은 화면일 때 글자 크기 */
+      padding: 0 0.5rem;
+      border-radius: 0.4rem;
+      background: blue;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+    }
+    .time-info {
+      display: none;
+    }
+    .length-info {
+      display: none;
+    }
+  }
+`;
 
 export default function ReadCalendar({ dates }) {
   const classes = dates.map((date) => ({
@@ -172,7 +264,7 @@ export default function ReadCalendar({ dates }) {
   // 특정 날짜에 수업 정보를 찾는 함수
   const findScheduleForDay = (day) => {
     const dayString = day.toLocaleDateString();
-    return classes.find(
+    return classes.filter(
       (schedule) => schedule.date.toLocaleDateString() === dayString
     );
   };
@@ -192,35 +284,29 @@ export default function ReadCalendar({ dates }) {
           DayContent: ({ date }) => {
             const scheduleForDay = findScheduleForDay(date);
 
+            // 시간 순서로 일정 정렬
+            const sortedSchedules = scheduleForDay
+              ? scheduleForDay.sort((a, b) => {
+                  const timeA = parseInt(a.time.replace(":", ""), 10); // HH:MM 형식 가정
+                  const timeB = parseInt(b.time.replace(":", ""), 10);
+                  return timeA - timeB;
+                })
+              : [];
+
             return (
-              <div style={{ position: "relative" }}>
+              <ScheduleDayContent>
                 <div>{date.getDate()}</div> {/* 날짜 표시 */}
-                {scheduleForDay && (
-                  <div
-                    style={{
-                      padding: "0 1rem",
-                      marginTop: "0.5rem",
-                      fontSize: "0.8rem",
-                      color: "black",
-                      background: "rgb(213, 232, 255)",
-                      borderRadius: "0.5rem",
-                      display: "flex", // Flexbox to align items
-                      alignItems: "center", // Align vertically
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "10px",
-                        height: "10px",
-                        backgroundColor: "blue",
-                        borderRadius: "100%",
-                        marginRight: "0.5rem",
-                      }}
-                    ></div>
-                    {scheduleForDay.time}분 - {scheduleForDay.length}시간 수업
-                  </div>
-                )}
-              </div>
+                {scheduleForDay &&
+                  scheduleForDay.map((schedule, index) => (
+                    <div key={index} className="schedule-info">
+                      <div className="dot"></div>
+                      <span className="time-info">{schedule.time} -</span>
+                      <span className="length-info">
+                        {schedule.length}시간 수업
+                      </span>
+                    </div>
+                  ))}
+              </ScheduleDayContent>
             );
           },
         }}
