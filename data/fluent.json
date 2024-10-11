@@ -51,6 +51,16 @@
       "text": "test"
     }
   ],
+  "user":[
+    {
+      "name": "Phil",
+      "student": false
+    },
+    {
+      "name": "Hee Sun",
+      "student": true
+    }
+  ],
   "schedule": [
     {
       "id": "8c8f",
