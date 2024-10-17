@@ -1,6 +1,6 @@
 "use client";
 
-import "./EditStyle.css";
+import "./EnterButtonStyles.css";
 import React from "react";
 
 interface ButtonProps {
@@ -8,7 +8,7 @@ interface ButtonProps {
   content: Record<string, string>;
 }
 
-const EditSchedule: React.FC<ButtonProps> = ({ id, content }) => {
+const EnterButton: React.FC<ButtonProps> = ({ id, content }) => {
   // Determine the button text based on the `id` and `content`
   const buttonText = content[id];
 
@@ -24,4 +24,4 @@ const EditSchedule: React.FC<ButtonProps> = ({ id, content }) => {
   );
 };
 
-export default EditSchedule;
+export default EnterButton;

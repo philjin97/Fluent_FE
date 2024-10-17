@@ -8,13 +8,7 @@ import ScheduleTable from "../components/scheduletable";
 
 const CustomDayPicker = styled(DayPicker)`
   .rdp {
-    --rdp-caption-font-size: 18px; /* 기본 캡션 폰트 크기 */
-    --rdp-accent-color: #0000ff; /* 선택된 날짜 배경 색 */
-    --rdp-background-color: #e7edff; /* hover된 요소 배경 색 */
-    --rdp-outline: 2px solid var(--rdp-accent-color); /* 포커스된 요소 테두리 */
-    --rdp-outline-selected: 3px solid var(--rdp-accent-color); /* 선택된 요소 테두리 */
-    --rdp-selected-color: #fff; /* 선택된 날짜 텍스트 색 */
-    margin: 1em;
+    margin: 1rem;
   }
 
   .rdp-caption {
@@ -23,7 +17,7 @@ const CustomDayPicker = styled(DayPicker)`
     justify-content: space-between;
     padding: 0;
     text-align: left;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 
   .rdp-caption_label {
@@ -38,7 +32,7 @@ const CustomDayPicker = styled(DayPicker)`
     border: 0;
     font-family: inherit;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 2rem;
   }
   .rdp-nav_button {
     display: inline-flex;
@@ -52,25 +46,25 @@ const CustomDayPicker = styled(DayPicker)`
   .rdp-head_cell {
     vertical-align: baseline;
     font-weight: 700;
-    text-align: center;
+    text-align: start;
     font-size: 1rem;
     text-transform: uppercase;
     padding: 0;
-    border-bottom: 2px solid #0a0a76;
   }
 
   .rdp-cell {
     padding: 0;
-    text-align: center;
-    border: 2px solid #acacac;
+    text-align: start;
+    border-top: 2px solid #acacac;
   }
 
   .rdp-weeknumber,
   .rdp-day {
+    padding: 0.5rem;
     display: flex;
     overflow: hidden;
+    justify-content: start;
     align-items: start;
-    justify-content: center;
     box-sizing: border-box;
     font-weight: 500;
     border: 2px solid transparent;
@@ -81,14 +75,13 @@ const CustomDayPicker = styled(DayPicker)`
 
   .rdp-day_today:not(.rdp-day_outside) {
     font-weight: 900;
-    color: rgb(255, 13, 0);
-    border: 2px solid rgb(255, 0, 0);
-    font-size: 1.5rem;
+    color: rgb(0, 38, 255);
+    border: 2px solid rgb(0, 38, 255);
   }
 
   .mybookedclass {
-    border: 2px solid rgb(0, 38, 255);
-    color: rgb(0, 38, 255);
+    border: 2px solid #3f4166;
+    color: #3f4166;
   }
 
   /* 반응형 디자인 적용 */
@@ -115,10 +108,10 @@ const CustomDayPicker = styled(DayPicker)`
 
     .rdp-weeknumber,
     .rdp-day {
-      --rdp-cell-size: 140px;
+      --rdp-cell-size: 120px;
     }
     .mybookedclass {
-      --rdp-cell-size: 140px;
+      --rdp-cell-size: 120px;
       font-size: 1.2rem;
     }
   }
@@ -175,45 +168,27 @@ const ScheduleDayContent = styled.div`
   .schedule-info {
     padding: 0 0.5rem;
     margin-top: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     color: black;
-    background: rgb(213, 232, 255);
+    background: #ececec;
     border-radius: 0.2rem;
     display: flex;
     align-items: center;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-    background-color: blue;
-    border-radius: 100%;
-    margin-right: 0.5rem;
   }
 
   /* 반응형 디자인 적용 */
 
   @media (min-width: 2000px) {
     .schedule-info {
-      font-size: 1rem; /* 큰 화면일 때 글자 크기 */
+      font-size: 1.2rem; /* 큰 화면일 때 글자 크기 */
       padding: 0 0.75rem;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
     }
   }
 
   @media (min-width: 1100px) and (max-width: 1599px) {
     .schedule-info {
-      font-size: 0.7rem;
+      font-size: 0.6rem;
       padding: 0 0.4rem;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
     }
   }
   @media (min-width: 1100px) and (max-width: 1599px) {
@@ -221,11 +196,6 @@ const ScheduleDayContent = styled.div`
       font-size: 0.8rem; /* 작은 화면일 때 글자 크기 */
       padding: 0 0.5rem;
       border-radius: 0.5rem;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
     }
     .time-info {
       display: none;
@@ -238,13 +208,9 @@ const ScheduleDayContent = styled.div`
       font-size: 0.6rem; /* 작은 화면일 때 글자 크기 */
       padding: 0 0.5rem;
       border-radius: 0.4rem;
-      background: blue;
+      background: #3f4166;
     }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-    }
     .time-info {
       display: none;
     }
@@ -299,7 +265,6 @@ export default function ReadCalendar({ dates }) {
                 {scheduleForDay &&
                   scheduleForDay.map((schedule, index) => (
                     <div key={index} className="schedule-info">
-                      <div className="dot"></div>
                       <span className="time-info">{schedule.time} -</span>
                       <span className="length-info">
                         {schedule.length}시간 수업
