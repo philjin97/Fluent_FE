@@ -46,11 +46,6 @@ export default function Page() {
       });
   }, []); // Empty dependency array means this effect runs once after the initial render
 
-  function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Prevent Enter key default action
-    }
-  }
 
   function userLogin() {
     fetch("http://localhost:3001/user")
