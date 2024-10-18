@@ -1,9 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import onboard from "../app/onboard/page";
 
 export default function Navigation() {
+  const pathname = usePathname();
+
+  const isHomePage = pathname === "/onboard" || pathname === "/";
+  const displayPage = pathname === "/onboard" || pathname === "/";
+
   return (
-    <div className="navbar h-[10vh]">
+    <div
+      className={`navbar h-[10vh]  ${
+        isHomePage ? "bg-[#3f4166]" : "bg-white"
+      } ${displayPage ? "" : "hidden"}`}
+    >
       <div className="navbar-start w-[8rem]">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -39,11 +52,17 @@ export default function Navigation() {
             </li>
           </ul>
         </div>
-        <Link href="/" className="btn btn-ghost  text-xl font-['Playwrite']">
-          Fluent
-        </Link>
+        <div className={` ${isHomePage ? "text-white" : "text-black"}`}>
+          {" "}
+          <Link
+            href="/"
+            className={`btn btn-ghost  text-xl font-['Playwrite']`}
+          >
+            Fluent
+          </Link>
+        </div>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      {/* <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-[20px] font-bold pt-3">
           <li>
             <details>
@@ -59,7 +78,7 @@ export default function Navigation() {
             </details>
           </li>
         </ul>
-      </div>
+      </div> */}
       <div className="navbar-end w-[100%]">
         <a className="btn btn-ghost">
           <Image

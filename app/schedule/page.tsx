@@ -1,19 +1,26 @@
 "use client";
 
-import EditSchedule from "../../components/EditSchedule/EditSchedule";
+import EnterButton from "../../components/EnterButton/EnterButton";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 import { DayPicker } from "react-day-picker";
 import ReadCalendar from "../../components/readcalendar";
 import "react-day-picker/dist/style.css";
 import ScheduleTable from "../../components/scheduletable";
+import { ScheduleModal } from "../../components/ScheduleModal";
+import { set } from "date-fns";
 
 export default function Page() {
   const [time, setTime] = useState("");
   const [length, setLength] = useState("");
   const router = useRouter();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   //readcalendar
   const URL = "http://localhost:3001/schedule";
   const [classes, setClasses] = useState([]);
@@ -85,170 +92,44 @@ export default function Page() {
   ];
 
   return (
-    <div className=" flex justify-center w-full">
-      <div className=" border-2 border-slate-500 rounded-3xl p-5 mt-12">
-        <div className="flex justify-center">
-          <ReadCalendar dates={classes} />
+    <div className="flex bg-gradient-to-b from-[#3f4166] to-[#292956]">
+      <div className="flex-col bg-white w-1/8 min-h-screen ">
+        <div className="flex m-5 mb-14 justify-center">
+          <Link href="/" className="btn btn-ghost  text-xl font-['Playwrite']">
+            Fluent
+          </Link>
+        </div>
+
+        <div className="h-fit" onClick={openModal}>
+          <p className="px-5 my-8 text-gray-400 text-sm font-semibold">
+            달력관리
+          </p>
+          <EnterButton id="edit" content={content} />
+        </div>
+      </div>
+
+      <div className="flex-1 flex justify-center items-center">
+        <div className="bg-white  relative w-[95%] h-[95%] rounded-xl p-5 shadow-lg shadow-black">
+          <div className="flex justify-center ">
+            <ReadCalendar dates={classes} />
+          </div>
         </div>
       </div>
       {/* <ScheduleTable /> */}
 
-      {/* 여기서부터 모달창 썼습니다 리팩토리화에서 컴포넌트화 예정 */}
-      <button
-        className="absolute left-10 top-28"
-        onClick={() => document.getElementById("my_modal_3").showModal()}
-      >
-        <EditSchedule id="edit" content={content} />
-      </button>
-
-      <dialog id="my_modal_3" className=" modal">
-        <div className=" max-w-[54rem] rounded-[1rem] relative  bg-white pt-[1.5rem] px-[1.5rem]">
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
-          {/* 모달창 안 내용입니다  */}
-          <div className="my-9 w-full flex">
-            <div className="flex justify-center">
-              <DayPicker
-                mode="single"
-                selected={selected}
-                onSelect={setSelected}
-                modifiersClassNames={{
-                  booked: " mybookedclass",
-                }}
-              />
-            </div>
-
-            <div className="mt-8 ml-24">
-              <p className=" text-lg font-semibold">When is your class?</p>
-              <p className="mt-3">{selected.toLocaleDateString()}</p>
-              <form
-                className=" pt-10 flex flex-col gap-2"
-                onSubmit={handleSubmit}
-              >
-                <fieldset className="mb-5">
-                  <legend className="mb-3  text-lg font-semibold">
-                    What time is your class?
-                  </legend>
-                  <div>
-                    <label htmlFor="time"></label>
-                    <input
-                      type="time"
-                      id="time"
-                      name="time"
-                      onChange={(e) => setTime(e.target.value)}
-                    />
-                    {/* <ul>
-                                <input type="radio" id="time1" name="time" value="14" onChange={(e) => setTime(e.target.value)}/>
-                                <label htmlFor="time1">14:00</label>
-                            </ul>
-                            <ul>
-                                <input type="radio" id="time2" name="time" value="16" onChange={(e) => setTime(e.target.value)}/>
-                                <label htmlFor="time2">16:00</label>
-                            </ul>
-                            <ul>
-                                <input type="radio" id="time3" name="time" value="18" onChange={(e) => setTime(e.target.value)}/>
-                                <label htmlFor="time3">18:00</label>
-                            </ul> */}
-                  </div>
-                </fieldset>
-
-                <fieldset className="mb-5  w-[200px]">
-                  <legend className="mb-3 text-lg font-semibold">
-                    How long is your class?
-                  </legend>
-                  <div>
-                    <ul>
-                      <label
-                        htmlFor="length1"
-                        className="flex w-[200px] items-center rounded-full   mb-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
-                      >
-                        <input
-                          type="radio"
-                          id="length1"
-                          name="length"
-                          value="1"
-                          className="absolute left-0 top-0 w-1 h-1 opacity-0 z-[-1]"
-                          onChange={(e) => setLength(e.target.value)}
-                        />
-                        <div className="w-[22px] h-[22px] rounded-full bg-gradient-to-br from-blue-700 to-sky-500 relative">
-                          <div
-                            className={`absolute inset-0 bg-gray-200 rounded-full transition-transform duration-300 ${
-                              length === "1" ? "scale-0" : "scale-[1.1]"
-                            }`}
-                          ></div>
-                        </div>
-                        <span className="ml-4 uppercase tracking-widest font-extrabold text-gray-500 text-lg transition-colors duration-300">
-                          1 hour
-                        </span>
-                      </label>
-                    </ul>
-
-                    <ul className="w-[400px]">
-                      <label
-                        htmlFor="length1.5"
-                        className="flex w-[240px]  items-center rounded-full mb-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
-                      >
-                        <input
-                          type="radio"
-                          id="length1.5"
-                          name="length"
-                          value="1.5"
-                          className="absolute left-0 top-0 w-1 h-1 opacity-0 z-[-1]"
-                          onChange={(e) => setLength(e.target.value)}
-                        />
-                        <div className="w-[22px] h-[22px] rounded-full bg-gradient-to-br from-green-400 to-blue-500 relative">
-                          <div
-                            className={`absolute inset-0 bg-gray-200 rounded-full transition-transform duration-300 ${
-                              length === "1.5" ? "scale-0" : "scale-[1.1]"
-                            }`}
-                          ></div>
-                        </div>
-                        <span className="ml-4 uppercase tracking-widest font-extrabold text-gray-500 text-[1rem] transition-colors duration-300">
-                          1 hour 30 minutes
-                        </span>
-                      </label>
-                    </ul>
-
-                    <ul>
-                      <label
-                        htmlFor="length2"
-                        className="flex w-[200px]  items-center rounded-full mb-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
-                      >
-                        <input
-                          type="radio"
-                          id="length2"
-                          name="length"
-                          value="2"
-                          className="absolute left-0 top-0 w-1 h-1 opacity-0 z-[-1]"
-                          onChange={(e) => setLength(e.target.value)}
-                        />
-                        <div className="w-[22px] h-[22px] rounded-full bg-gradient-to-br from-green-400 to-teal-300 relative">
-                          <div
-                            className={`absolute inset-0 bg-gray-200 rounded-full transition-transform duration-300 ${
-                              length === "2" ? "scale-0" : "scale-[1.1]"
-                            }`}
-                          ></div>
-                        </div>
-                        <span className="ml-4 uppercase tracking-widest font-extrabold text-gray-500 text-lg transition-colors duration-300">
-                          2 hours
-                        </span>
-                      </label>
-                    </ul>
-                  </div>
-                </fieldset>
-
-                <button className="relative mr-[7rem] mt-10" type="submit">
-                  <EditSchedule id="submit" content={content} />
-                </button>
-              </form>
-            </div>
-          </div>
-          {/* 여기까지 모달창 안 내용 */}
-        </div>
-      </dialog>
+      {isModalOpen && (
+        <ScheduleModal
+          selected={selected}
+          setSelected={setSelected}
+          time={time}
+          setTime={setTime}
+          length={length}
+          setLength={setLength}
+          handleSubmit={handleSubmit}
+          content={content}
+          closeModal={closeModal} // 모달 닫기 함수 전달
+        />
+      )}
 
       {/* 여기까지  */}
     </div>

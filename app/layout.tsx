@@ -10,7 +10,7 @@ export const metadata = {
   title: "Fluent",
   description: "학원 서비스 폼",
   icons: {
-    icon: "/fluent.png",
+    icon: "/icon.png",
   },
 };
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="mx-5 {inter.className}">
+      <body className="  {inter.className}  bg-white">
         <Navigation />
         {children}
       </body>
