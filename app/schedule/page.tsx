@@ -94,14 +94,14 @@ export default function Page() {
   return (
     <div className="flex bg-gradient-to-b from-[#3f4166] to-[#292956]">
       <div className="flex-col bg-white w-1/8 min-h-screen ">
-        <div className="flex m-5 mb-10 justify-center">
+        <div className="flex m-5 mb-14 justify-center">
           <Link href="/" className="btn btn-ghost  text-xl font-['Playwrite']">
             Fluent
           </Link>
         </div>
 
         <div className="h-fit" onClick={openModal}>
-          <p className="px-5 my-5 text-gray-500 text-base font-semibold">
+          <p className="px-5 my-8 text-gray-400 text-sm font-semibold">
             달력관리
           </p>
           <EnterButton id="edit" content={content} />

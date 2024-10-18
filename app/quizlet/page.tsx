@@ -100,12 +100,14 @@ export default function Quizlet({ searchParams }: SearchParamProps) {
   return (
     <div className="flex bg-gradient-to-b from-[#3f4166] to-[#292956]">
       <div className="flex-col bg-white w-1/8 min-h-screen ">
-        <div className="flex m-5 mb-10 justify-center">
+        <div className="flex m-5 mb-14 justify-center">
           <Link href="/" className="btn btn-ghost  text-xl font-['Playwrite']">
             Fluent
           </Link>
         </div>
-
+        <p className="px-5 my-8 text-gray-400 text-sm font-semibold">
+          quizlet 관리
+        </p>
         <div className="flex flex-col gap-10">
           <Link href="quizlet/?show=true">
             <EnterButton id="write" content={content} />
@@ -116,7 +118,7 @@ export default function Quizlet({ searchParams }: SearchParamProps) {
             <div>
               {selectQuizlet ? (
                 data.map((item) => (
-                  <div className="flex flex-col items-center mt-2 p-3 border-slate-300 border-2 hover:bg-slate-300">
+                  <div className="flex flex-col items-center m-2 p-3 border-slate-300 border-2 hover:bg-slate-300">
                     <Button
                       key={item.date}
                       value={item.date}
