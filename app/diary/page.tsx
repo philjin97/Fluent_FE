@@ -1,10 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+
+import { motion } from "framer-motion";
+
+import DiaryBg from "../../public/images/diarymain.svg";
 import DiaryModal from "../../components/modaldiary";
 import DiaryCard from "../../components/carddiary";
 import WriteDiary from "../../components/DiaryBtn/WriteDiary";
 import EnterButton from "../../components/EnterButton/EnterButton";
+import Navigation from "../../components/DiaryNavigation";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -18,6 +24,23 @@ const content = {
 };
 
 export default async function Diary({ searchParams }: SearchParamProps) {
+  const variants: {} = {
+    hidden: {
+      opacity: 0.2,
+      y: 15,
+    },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.7,
+        repeat: Infinity,
+        repeatType: "reverse",
+      },
+    }),
+  };
+
   const show = searchParams?.show;
   let diarydata = [];
 
@@ -31,23 +54,40 @@ export default async function Diary({ searchParams }: SearchParamProps) {
 
   return (
     <>
-      <div className="z-0 relative">
-        {/* 상단 프로필 부분 */}
-        <div className="sticky top-0 h-[300px] w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#292956] via=[#e6d9ff] to-[#d9e9ff] z-20">
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-24 h-24 bg-black rounded-full mb-4 sm:w-20 sm:h-20"></div>
-            <h1 className="text-[20rem] font-bold sm:text-xl">Student</h1>
+      <div className="relative">
+        <div className="flex justify-center">
+          {" "}
+          <Navigation />
+        </div>
+
+        <div className="h-[100vh] w-[100vw] overflow-hidden relative flex justify-center items-center">
+          <Image
+            src={DiaryBg}
+            alt="diarymain"
+            layout="fill" // 부모 요소를 꽉 채우기 위해 layout="fill" 사용
+            objectFit="cover" // 이미지가 부모 요소의 크기에 맞게 조정
+          />
+
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 text-center">
+            <span className="text-white text-3xl">Write, your Diary.</span>
+            <span className="animate-blink text-white text-4xl">|</span>
+          </div>
+
+          {/* 아래 가운데 배치된 SCROLL DOWN 텍스트 */}
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+            <motion.span
+              initial="hidden"
+              animate="visible"
+              variants={variants}
+              className="text-white text-[3rem]"
+            >
+              ↓
+            </motion.span>
           </div>
         </div>
 
-        <div className=" px-60 z-20 relative bg-white">
-          <div className="flex  items-center h-32">
-            <Link href="diary/?show=true">
-              <EnterButton id="write" content={content} />
-            </Link>
-          </div>
-
-          <div className="z-10 relative px-60 h-[80vh]  bg-white overflow-y-scroll hide-scrollbar">
+        <div className=" px-60  relative ">
+          <div className=" relative px-60 h-[80vh] hide-scrollbar">
             <DiaryCard
               diarydata={diarydata.sort(
                 (a, b) =>
