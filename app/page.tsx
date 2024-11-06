@@ -194,5 +194,5 @@ export default function Page() {
         </CardFooter>
       </Card>
     </div>
-  );
+  )
 }
