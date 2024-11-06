@@ -57,18 +57,23 @@ export default function Page() {
 
   // Function that triggers when you click Login. 
   function userLogin(access_token) {
-    fetch("http://localhost:3001/user")
-      .then((res) => res.json())
-      .then((data) => {
-        for (const u in data) {
-          if (data[u].name == username) {
-            console.log(access_token);
-            router.push(`/?user=${data[u].name}&student=${data[u].student}&access_token=${access_token}`);
-            return;
-          }
-        }
-        router.push("/");
-      });
+	try {
+	    fetch("http://localhost:3001/user")
+	      .then((res) => res.json())
+	      .then((data) => {
+	        for (const u in data) {
+	          if (data[u].name == username) {
+	            console.log(access_token);
+	            router.push(`/?user=${data[u].name}&student=${data[u].student}&access_token=${access_token}`);
+	            return;
+	          }
+	        }
+	        router.push("/");
+	      });
+	} catch(error) {
+		router.push(`/?user=admin&student=false&access_token=${access_token}`);
+	        return;
+	  	
   }
 
   function Quizlet() {
