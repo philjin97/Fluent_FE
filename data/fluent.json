@@ -51,14 +51,16 @@
       "text": "test"
     }
   ],
-  "user":[
+  "user": [
     {
       "name": "Phil",
-      "student": false
+      "student": false,
+      "id": "08a5"
     },
     {
       "name": "Hee Sun",
-      "student": true
+      "student": true,
+      "id": "fd34"
     }
   ],
   "schedule": [
@@ -97,6 +99,12 @@
       "date": "2024. 10. 23.",
       "time": "02:12",
       "length": "2"
+    },
+    {
+      "id": "30ce",
+      "date": "2024. 10. 30.",
+      "time": "11:00",
+      "length": "1"
     }
   ],
   "diary": [

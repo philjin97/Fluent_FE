@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="  {inter.className}  bg-white">
+      <body className="{inter.className} w-full min-h-[100vh] bg-white">
         <Navigation />
         {children}
       </body>

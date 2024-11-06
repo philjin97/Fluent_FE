@@ -19,6 +19,11 @@ import {
   CardTitle,
 } from "../@/components/ui/card";
 import { Button } from "../@/components/ui/button";
+import { access } from "fs";
+
+import AddRoom from "components/addroom";
+
+
 
 export default function Page() {
   const URL = "http://localhost:3001/schedule";
@@ -27,6 +32,8 @@ export default function Page() {
   const [username, setUsername] = useState("");
   const user = searchparams.get("user");
   const student = searchparams.get("student");
+  const [access_token, setAccess_token] = useState("")
+  const access_token_info = searchparams.get("access_token")
   const router = useRouter();
 
   const content = {
@@ -47,14 +54,16 @@ export default function Page() {
   }, []); // Empty dependency array means this effect runs once after the initial render
 
 
-  function userLogin() {
+
+  // Function that triggers when you click Login. 
+  function userLogin(access_token) {
     fetch("http://localhost:3001/user")
       .then((res) => res.json())
       .then((data) => {
         for (const u in data) {
           if (data[u].name == username) {
-            console.log("success");
-            router.push(`/?user=${data[u].name}&student=${data[u].student}`);
+            console.log(access_token);
+            router.push(`/?user=${data[u].name}&student=${data[u].student}&access_token=${access_token}`);
             return;
           }
         }
@@ -62,10 +71,63 @@ export default function Page() {
       });
   }
 
+  function Quizlet() {
+    router.push(`/quizlet?user=${user}&student=${student}&access_token=${access_token_info}`)
+  }
+
+  function Diary() {
+    router.push(`/diary?access_token=${access_token_info}`)
+  }
+
+  function Schedule() {
+    router.push(`/diary?access_token=${access_token_info}`)
+  }
+
+
+  const url = 'https://fluentenglish.odooserver.sk/api/v1/token';
+  const options = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      username: 'Phil',
+      password: 'Phil',
+    }),
+  };
+
+
+  async function TestLogin(){
+    const response = await fetch(url, options);
+    const data = await response.json();
+    
+    setAccess_token(data.access_token);
+    
+    userLogin(data.access_token);
+	}  
+
+  const url1 = 'https://fluentenglish.odooserver.sk/api/v1/search_read?model=lea.student&fields=name&domain=%5B%28%27name%27%2C%20%27%3D%27%2C%20%27%EA%B6%8C%EC%84%B1%EB%B3%B5%27%29%5D';
+  const options1 = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJQaGlsIiwiaWF0IjoxNzMwMTEwOTM5LCJleHAiOjE3MzAxMTQ1Mzl9.USWIO38JzYjp5aylkAcHCurRcQEr2JNcMKC-Pr8YUG0'
+    }
+  };
+
+
+  async function TestSearchRead(){
+    const response = await fetch(url1, options1)
+    .then(response => response.json())
+    .then(data => console.log(data))
+  }
+
   return user ? (
     student == "true" ? (
       <div className="relative ">
-        <div className="absolute top-0 left-0 w-full h-[30vh] bg-gradient-to-b from-[#3f4166] to-[#292956]  z-0"></div>
+        <div className="absolute top-0 left-0 w-full h-[30vh] bg-gradient-to-b from-[#3f4166] to-[#292956] z-0"></div>
 
         <div className="relative z-10 flex justify-center gap-10 ">
           <div className="flex  justify-center mt-20">
@@ -84,14 +146,12 @@ export default function Page() {
             </legend>
 
             <div className="flex gap-5">
-              <Link href="/quizlet">
+              <div onClick={Quizlet}>
                 <Btn id="quizlet" image="images/quizlet.svg" />
-              </Link>
-              <Link href="/diary">
+              </div>
+              <div onClick={Diary}>
                 <Btn id="diary" image="images/diary.svg" />
-                {/* <Diary /> */}
-                {/* <DiaryBtn /> */}
-              </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -99,19 +159,12 @@ export default function Page() {
     ) : (
       <div className="flex flex-col justify-center ">
         <div className="flex justify-around   m-2 gap-20 ">
-          <div className=" border-2 border-slate-500 rounded-3xl p-5">
-            <TodayReadCalender dates={classes} />
-            <div className="">
-              <Link href="/schedule">
-                <EnterButton id="schedule" content={content} />
-              </Link>
-            </div>
-          </div>
+            <AddRoom />
         </div>
       </div>
     )
   ) : (
-    <div className="min-h-screen w-full bg-white flex items-center justify-center">
+    <div className="h-[90vh] w-full bg-white flex flex-col items-center justify-center">
       <Card className="w-[15vw]">
         <CardHeader>
           <CardTitle>Login</CardTitle>
@@ -129,8 +182,8 @@ export default function Page() {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button className="w-full" onClick={userLogin}>
+        <CardFooter className="flex justify-between ">
+          <Button className="w-full" onClick={TestLogin}>
             Log in
           </Button>
         </CardFooter>

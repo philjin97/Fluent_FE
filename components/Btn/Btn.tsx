@@ -12,7 +12,7 @@ const Btn: React.FC<BtnProps> = ({ id, image }) => {
   const getDetails = (id: string) => {
     switch (id) {
       case "quizlet":
-        return { main: "QUZELET", sub: "Quizlet의 한줄소개" };
+        return { main: "QUIZLET", sub: "Quizlet의 한줄소개" };
       case "diary":
         return { main: "DIARY", sub: "Diary의 한줄소개" };
       case "ai":

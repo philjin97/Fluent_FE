@@ -264,10 +264,10 @@ export default function ReadCalendar({ dates }) {
                 <div>{date.getDate()}</div> {/* 날짜 표시 */}
                 {scheduleForDay &&
                   scheduleForDay.map((schedule, index) => (
-                    <div key={index} className="schedule-info">
+                    <div key={schedule.id} className="schedule-info">
                       <span className="time-info">{schedule.time} -</span>
                       <span className="length-info">
-                        {schedule.length}시간 수업
+                        {schedule.time}시
                       </span>
                     </div>
                   ))}
