@@ -63,8 +63,8 @@ export default function addRoom() {
       console.log(data_currentSchedule)
       
       const allDivs = document.querySelectorAll(".scheduleTable")
-      for (const div of allDivs){
-        div.innerHTML = ''
+      for (const div of Array.from(allDivs)) {
+        div.innerHTML = '';
       }
 
       for (const each of data_currentSchedule){
