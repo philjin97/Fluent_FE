@@ -13,7 +13,7 @@ export default function DiaryBtn() {
         <section>
           <div className="container">
             <div className="card">
-              <div className="card-inner" style={{ "--clr": "#fff" }}>
+              <div className="card-inner" {{ "--clr": "#fff" } as React.CSSProperties}>
                 <div className="box">
                   <div className="imgBox">
                     <img
@@ -30,11 +30,11 @@ export default function DiaryBtn() {
               </div>
               <div className="content">
                 <ul>
-                  <li style={{ "--clr-tag": "#fcc8e9" }} className="branding">
+                  <li style={{ "--clr-tag": "#fcc8e9" } as React.CSSProperties} className="branding">
                     Video
                   </li>
                   <li
-                    style={{ "--clr-tag": "#ff735b", color: "white" }}
+                    style={{ "--clr-tag": "#ff735b", color: "white" } as React.CSSProperties}
                     className="packaging"
                   >
                     Lesson
