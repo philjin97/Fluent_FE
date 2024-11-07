@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import EnterButton from "../../components/EnterButton/EnterButton";
 import Today from "../../components/Today/Today";
 import Btn from "../../components/Btn/Btn";
-import Youtube from "../../components/Button/Youtube/YouTube";
+// import Youtube from "../../components/Button/Youtube/YouTube";
 
 export default function onboard() {
   const URL = "http://localhost:3001/schedule";
@@ -78,9 +78,9 @@ export default function onboard() {
           </Link>
         </div>
 
-        <div className="flex justify-center col-span-3">
+{/*         <div className="flex justify-center col-span-3">
           <Youtube />
-        </div>
+        </div> */}
       </div>
     </div>
   );
